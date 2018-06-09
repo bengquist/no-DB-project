@@ -34,9 +34,6 @@ class Recipes extends Component {
     axios
       .delete(`/api/recipes/id?id=${index}`)
       .then(response => this.setState({ recipes: response.data }));
-    // let newRecipes = this.state.recipes;
-    // newRecipes.splice(index, 1);
-    // this.setState({ recipes: newRecipes });
   };
 
   render() {

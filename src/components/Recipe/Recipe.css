@@ -56,3 +56,8 @@ input:focus {
   height: 400px;
   width: 400px;
 }
+
+.ingredients {
+  width: 600px;
+  height: 400px;
+}
