@@ -1,0 +1,10 @@
+.post {
+  display: flex;
+  justify-content: space-between;
+}
+
+.post Button {
+  background: #fff;
+  color: green;
+  border: 1.5px solid green;
+}

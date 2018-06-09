@@ -33,13 +33,41 @@ const getNewRecipes = (req, res) => {
 };
 
 const deleteRecipe = (req, res) => {
-  let id = req.query.id;
+  const { id } = req.query;
   recipes.splice(id, 1);
+  res.status(200).send(recipes);
+};
+
+const updateRecipe = (req, res) => {
+  const { text } = req.body;
+  const { id } = req.query;
+
+  let recipeIndex = recipes.findIndex(recipe => recipe.id == id);
+  recipes[recipeIndex].recipe.ingredientLines = text;
+
+  res.status(200).send(recipes);
+};
+
+const addRecipe = (req, res) => {
+  const { label, calories, ingredientLines } = req.body;
+  const newRecipe = {
+    recipe: {
+      label,
+      calories,
+      ingredientLines
+    },
+    id
+  };
+  recipes.push(newRecipe);
+  id++;
+
   res.status(200).send(recipes);
 };
 
 module.exports = {
   getRecipes,
   getNewRecipes,
-  deleteRecipe
+  deleteRecipe,
+  updateRecipe,
+  addRecipe
 };
