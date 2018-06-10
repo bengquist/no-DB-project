@@ -14,7 +14,10 @@ class Recipes extends Component {
       input: "",
       labal: "",
       ingredientLines: "",
-      calories: ""
+      calories: "",
+      newImg: [],
+      newImage: "",
+      counter: 0
     };
   }
 
@@ -71,14 +74,33 @@ class Recipes extends Component {
         })
         .then(response => {
           this.setState({ recipes: response.data });
+          this.getPhoto();
+          this.setState({ label: "", ingredientLines: "", calories: "" });
         });
     }
-    this.setState({ label: "", ingredientLines: "", calories: "" });
+  };
+
+  getPhoto = () => {
+    axios
+      .get(
+        `https://api.unsplash.com/search/photos/?page=1&per_page=10&query=${
+          this.state.label
+        }&client_id=80b9c1dd9ec3493dd259267b42bb9e0d637606ba6956cfaa08bc3c90a4e62d46`
+      )
+      .then(response => {
+        const image = response.data.results[0].urls.raw;
+        var newArr = [...this.state.newImg, image] || [image];
+        const newImage = newArr[this.state.counter];
+        this.setState({
+          newImg: newArr,
+          counter: this.state.counter + 1,
+          newImage: newImage
+        });
+      });
   };
 
   render() {
     if (this.state.recipes) {
-      console.log(this.state.recipes);
       var recipesDisplay = this.state.recipes.map((val, i) => {
         return (
           <Recipe
@@ -87,6 +109,7 @@ class Recipes extends Component {
             name={val.recipe.label}
             img={val.recipe.image}
             url={val.recipe.url}
+            newImg={this.state.newImage}
             cal={val.recipe.calories}
             ingredients={val.recipe.ingredientLines}
             deleteRecipe={this.deleteRecipe}
@@ -98,23 +121,32 @@ class Recipes extends Component {
 
     return (
       <div>
-        <Input changed={this.inputHandler} />
-        <Button clicked={this.searchRecipe}>Search</Button>
         <div className="post">
-          <h4>Name: </h4>
-          <Input value={this.state.label} changed={this.labelHandler} />
-          <h4>Ingredients: </h4>
-          <Input
-            value={this.state.ingredientLines}
-            changed={this.ingredientHandler}
-          />
-          <h4>Calories: </h4>
-          <Input
-            value={this.state.calories}
-            type="number"
-            changed={this.calorieHandler}
-          />
+          <div>
+            <h4>Name: </h4>
+            <Input value={this.state.label} changed={this.labelHandler} />
+          </div>
+          <div>
+            <h4>Ingredients: </h4>
+            <Input
+              value={this.state.ingredientLines}
+              changed={this.ingredientHandler}
+            />
+          </div>
+          <div>
+            <h4>Calories: </h4>
+            <Input
+              value={this.state.calories}
+              type="number"
+              changed={this.calorieHandler}
+            />
+          </div>
+
           <Button clicked={this.postRecipe}>Add</Button>
+          <div>
+            <Input changed={this.inputHandler} />
+            <Button clicked={this.searchRecipe}>Search</Button>
+          </div>
         </div>
         {recipesDisplay}
       </div>

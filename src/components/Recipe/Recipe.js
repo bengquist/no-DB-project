@@ -13,7 +13,7 @@ class Recipe extends Component {
   }
 
   render() {
-    if (typeof this.props.ingredients == "string") {
+    if (typeof this.props.ingredients === "string") {
       var newIngredients = this.props.ingredients;
     } else {
       var newIngredients = this.props.ingredients.map((val, i) => {
@@ -43,6 +43,7 @@ class Recipe extends Component {
     };
 
     if (!this.state.edit) {
+      console.log(this.props.newImg);
       return (
         <div key={this.props.id} className="recipe">
           <div className="heading">
@@ -64,7 +65,10 @@ class Recipe extends Component {
             {newIngredients}
           </div>
           <a href={this.props.url} target="_blank">
-            <img src={this.props.img} alt="food" />
+            <img
+              src={this.props.img ? this.props.img : this.props.newImg}
+              alt="food"
+            />
           </a>
         </div>
       );
@@ -74,7 +78,7 @@ class Recipe extends Component {
           <div className="heading">
             <h1>{this.props.name}</h1>
             <Button clicked={editToggle}>
-              {this.state.edit == false ? "Edit" : "Cancel"}
+              {this.state.edit === false ? "Edit" : "Cancel"}
             </Button>
             <Button clicked={completeDelete}>Delete</Button>
           </div>
@@ -97,7 +101,7 @@ class Recipe extends Component {
             <Button clicked={confirmEdit}>Confirm</Button>
           </div>
           <a href={this.props.url} target="_blank">
-            <img src={this.props.img} alt="food" />
+            <img src={this.props.img || this.props.newImg} alt="food" />
           </a>
         </div>
       );

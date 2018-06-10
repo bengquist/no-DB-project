@@ -2,6 +2,7 @@ const axios = require("axios");
 
 let recipes = [];
 let id = 0;
+let photoUrl = "";
 
 axios
   .get(

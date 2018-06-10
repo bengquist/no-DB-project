@@ -1,10 +1,18 @@
 .post {
   display: flex;
   justify-content: space-between;
+  align-items: center
 }
 
 .post Button {
   background: #fff;
   color: green;
   border: 1.5px solid green;
+  width: 200px;
+  margin-top: 10px;
+}
+
+.post Button:hover {
+  background: green;
+  color: #fff;
 }
