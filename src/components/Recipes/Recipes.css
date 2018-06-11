@@ -7,18 +7,17 @@
 }
 
 .post Button {
-  background: #fff;
-  color: green;
-  border: 1.5px solid green;
+  background: #ca3232;
+  color: #fff;
+  border: 1.5px solid #ca3232;
   width: 200px;
-  box-shadow: 1px 2px 10px rgb(48, 167, 48);
 }
 
-.post Button:hover {
-  background: #259925;
+/* .post Button:hover {
+  background: #ca3232;
   color: #fff;
-  border: 1px solid green;
-}
+  border: 1px solid #ca3232;
+} */
 
 .post Button:active {
   box-shadow: none;
@@ -39,6 +38,6 @@ h4 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: green;
+  background: #ca3232;
   border-radius: 20px;
 }

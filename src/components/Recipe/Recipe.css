@@ -1,7 +1,7 @@
 body {
   width: 95%;
   margin: 0 auto;
-  background: linear-gradient(to right, #77dd77 , lightgreen);
+  background: #b6b2ab;
 }
 
 .heading {
@@ -13,9 +13,7 @@ body {
   margin: 20px 0;
 }
 
-.heading Button:hover {
-  box-shadow: 1px 2px 10px black;
-}
+
 
 .heading Button:active {
   box-shadow: none;
@@ -25,16 +23,16 @@ body {
 .recipe {
   display: flex;
   justify-content: space-between;
-  align-content: space-between;
+  align-items: flex-start;
   margin: 40px 20px;
-  border: 1px solid #000;
-  box-shadow: 0 0 3px #000;
+  border: 2px solid #ca3232;
+  box-shadow: 0 0 5px #ca3232;
   padding: 20px;
   background: #e6e6e6;
 }
 
 .recipe h1 {
-  color: green;
+  color: #ca3232;
   width: 300px;
 }
 
@@ -53,17 +51,17 @@ input {
   height: 30px;
   width: 200px;
   border-radius: 5px;
-  border: 1px solid rgb(4, 173, 4);
+  border: 1px solid #ca3232;
 }
 
 input:focus {
   outline: none;
   border-color: green;
-  box-shadow: 0px 0px 5px green;
+  box-shadow: 0px 0px 5px #ca3232;
 }
 
 .recipe img {
-  box-shadow: 0 0 15px black;
+  box-shadow: 0 0 15px #000;
   height: 400px;
   width: 400px;
 }
