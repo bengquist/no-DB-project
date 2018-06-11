@@ -40,7 +40,8 @@ const getNewRecipes = (req, res) => {
 };
 
 const deleteRecipe = (req, res) => {
-  const { id } = req.query;
+  const { id } = req.params;
+  console.log(id);
   if (!recipes.hits) {
     recipes.splice(id, 1);
     res.status(200).send(recipes);

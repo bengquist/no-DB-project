@@ -25,9 +25,7 @@ class Recipe extends Component {
       });
     } else {
       newIngredients = this.props.ingredients.map((val, i) => {
-        return `
-        ${val}
-        `;
+        return ` ${val}`;
       });
     }
 
