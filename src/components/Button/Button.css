@@ -5,7 +5,10 @@ button {
   padding: 10px 25px;
   text-align: center;
   border-radius: 15px;
-  margin-left: 5px;
+  margin: 0 5px;
+  font-family: "Song Myung", sans-serif;
+  font-size: 18px;
+  margin-bottom: 20px;
 }
 
 button:hover {

@@ -28,25 +28,44 @@ const getNewRecipes = (req, res) => {
       }&app_id=999bb820&app_key=647bc9a8771608ce360fafc71fa5e047&from=0&to=10`
     )
     .then(response => {
+      id = 0;
       recipes = response.data;
+      response.data.hits.forEach(val => {
+        val.id = id;
+        id++;
+      });
+
       res.status(200).send(recipes);
     });
 };
 
 const deleteRecipe = (req, res) => {
   const { id } = req.query;
-  recipes.splice(id, 1);
-  res.status(200).send(recipes);
+  if (!recipes.hits) {
+    recipes.splice(id, 1);
+    res.status(200).send(recipes);
+  } else {
+    recipes.hits.splice(id, 1);
+    res.status(200).send(recipes.hits);
+  }
 };
 
 const updateRecipe = (req, res) => {
   const { text } = req.body;
   const { id } = req.query;
 
-  let recipeIndex = recipes.findIndex(recipe => recipe.id == id);
-  recipes[recipeIndex].recipe.ingredientLines = text;
+  if (!recipes.hits) {
+    let recipeIndex = recipes.findIndex(recipe => recipe.id == id);
+    recipes[recipeIndex].recipe.ingredientLines = text;
 
-  res.status(200).send(recipes);
+    res.status(200).send(recipes);
+  } else {
+    recipes = recipes.hits;
+    let recipeIndex = recipes.findIndex(recipe => recipe.id == id);
+    recipes[recipeIndex].recipe.ingredientLines = text;
+
+    res.status(200).send(recipes);
+  }
 };
 
 const addRecipe = (req, res) => {

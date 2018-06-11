@@ -15,15 +15,12 @@ class Recipes extends Component {
       labal: "",
       ingredientLines: "",
       calories: "",
-      newImg: [],
-      newImage: "",
-      counter: 0
+      newImg: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     };
   }
 
   componentDidMount() {
     axios.get("/api/recipes").then(response => {
-      console.log(response.data);
       this.setState({ recipes: response.data });
     });
   }
@@ -48,7 +45,10 @@ class Recipes extends Component {
     if (this.state.input) {
       axios
         .get(`/api/recipes/label?label=${this.state.input}`)
-        .then(response => this.setState({ recipes: response.data.hits }));
+        .then(response => {
+          console.log(response.data.hits);
+          this.setState({ recipes: response.data.hits });
+        });
     }
   };
 
@@ -81,6 +81,9 @@ class Recipes extends Component {
   };
 
   getPhoto = () => {
+    let image = "";
+    let newArr = [];
+
     axios
       .get(
         `https://api.unsplash.com/search/photos/?page=1&per_page=10&query=${
@@ -88,13 +91,18 @@ class Recipes extends Component {
         }&client_id=80b9c1dd9ec3493dd259267b42bb9e0d637606ba6956cfaa08bc3c90a4e62d46`
       )
       .then(response => {
-        const image = response.data.results[0].urls.raw;
-        var newArr = [...this.state.newImg, image] || [image];
-        const newImage = newArr[this.state.counter];
+        image = response.data.results[0].urls.raw;
+        newArr = [...this.state.newImg, image];
         this.setState({
-          newImg: newArr,
-          counter: this.state.counter + 1,
-          newImage: newImage
+          newImg: newArr
+        });
+      })
+      .catch(err => {
+        image =
+          "https://images.pexels.com/photos/8313/food-eating-potatoes-beer-8313.jpg?auto=compress&cs=tinysrgb&h=350";
+        newArr = [...this.state.newImg, image];
+        this.setState({
+          newImg: newArr
         });
       });
   };
@@ -109,7 +117,7 @@ class Recipes extends Component {
             name={val.recipe.label}
             img={val.recipe.image}
             url={val.recipe.url}
-            newImg={this.state.newImage}
+            newImg={this.state.newImg[i]}
             cal={val.recipe.calories}
             ingredients={val.recipe.ingredientLines}
             deleteRecipe={this.deleteRecipe}
@@ -124,29 +132,32 @@ class Recipes extends Component {
         <div className="post">
           <div>
             <h4>Name: </h4>
-            <Input value={this.state.label} changed={this.labelHandler} />
+            <Input
+              words="Recipe Name..."
+              value={this.state.label}
+              changed={this.labelHandler}
+            />
           </div>
           <div>
             <h4>Ingredients: </h4>
             <Input
               value={this.state.ingredientLines}
               changed={this.ingredientHandler}
+              words="Ingredients..."
             />
           </div>
           <div>
             <h4>Calories: </h4>
             <Input
+              words="Calories..."
               value={this.state.calories}
               type="number"
               changed={this.calorieHandler}
             />
           </div>
-
           <Button clicked={this.postRecipe}>Add</Button>
-          <div>
-            <Input changed={this.inputHandler} />
-            <Button clicked={this.searchRecipe}>Search</Button>
-          </div>
+          <Input words="Find Recipe..." changed={this.inputHandler} />
+          <Button clicked={this.searchRecipe}>Search</Button>
         </div>
         {recipesDisplay}
       </div>

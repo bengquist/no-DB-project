@@ -13,15 +13,21 @@ class Recipe extends Component {
   }
 
   render() {
-    if (typeof this.props.ingredients === "string") {
-      var newIngredients = this.props.ingredients;
-    } else {
-      var newIngredients = this.props.ingredients.map((val, i) => {
-        return <p key={i}>{val}</p>;
-      });
+    let newIngredients = "";
 
-      var newStrIngredients = this.props.ingredients.map((val, i) => {
-        return { val };
+    if (typeof this.props.ingredients === "string") {
+      let ingredients = this.props.ingredients;
+      let ingredientsArr = ingredients.split("\n");
+      newIngredients = ingredientsArr.map(val => {
+        return `
+        ${val}
+        `;
+      });
+    } else {
+      newIngredients = this.props.ingredients.map((val, i) => {
+        return `
+        ${val}
+        `;
       });
     }
 
@@ -30,7 +36,7 @@ class Recipe extends Component {
     };
 
     const editToggle = () => {
-      this.setState({ edit: !this.state.edit });
+      this.setState({ edit: !this.state.edit, input: newIngredients });
     };
 
     const inputToggle = ingredients => {
@@ -43,7 +49,6 @@ class Recipe extends Component {
     };
 
     if (!this.state.edit) {
-      console.log(this.props.newImg);
       return (
         <div key={this.props.id} className="recipe">
           <div className="heading">
@@ -58,11 +63,11 @@ class Recipe extends Component {
                 ? this.props.cal.toFixed(0)
                 : this.props.cal}
             </p>
-            <br />
-            <p>
+            <p className="ingredient-list">
               <strong>Ingredients:</strong>
+              <br />
+              {newIngredients}
             </p>
-            {newIngredients}
           </div>
           <a href={this.props.url} target="_blank">
             <img
@@ -89,14 +94,15 @@ class Recipe extends Component {
                 ? this.props.cal.toFixed(0)
                 : this.props.cal}
             </p>
-            <br />
             <p>
               <strong>Ingredients:</strong>
+              <br />
             </p>
             <textarea
               onChange={event => inputToggle(event.target.value)}
               className="ingredients"
               type="text"
+              value={this.state.input}
             />
             <Button clicked={confirmEdit}>Confirm</Button>
           </div>
